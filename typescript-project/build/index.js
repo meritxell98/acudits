@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+document.addEventListener("DOMContentLoaded", () => getJoke());
 function getJoke() {
     return __awaiter(this, void 0, void 0, function* () {
         let res = yield fetch("https://icanhazdadjoke.com/", {
@@ -16,8 +17,14 @@ function getJoke() {
             }
         })
             .then(res => res.json())
-            .then(response => console.log(response));
+            .then(response => {
+            showJoke(response.joke);
+            console.log(response);
+        });
     });
+}
+function showJoke(joke) {
+    document.getElementById("result").innerHTML = joke;
 }
 // function getJoke(){
 //     fetch ("https://icanhazdadjoke.com/",{

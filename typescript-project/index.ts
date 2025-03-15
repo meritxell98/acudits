@@ -1,3 +1,5 @@
+document.addEventListener("DOMContentLoaded", () => getJoke());
+
 async function getJoke(){
     let res = await fetch("https://icanhazdadjoke.com/",
     {
@@ -6,9 +8,17 @@ async function getJoke(){
         }
     })
     .then(res => res.json())
-    .then( response => console.log(response))
-    
+    .then( response => {
+        showJoke(response.joke)
+        console.log(response)
+    })
+
 }
+
+function showJoke(joke : string){
+    document.getElementById("result").innerHTML = joke
+}
+
 
 // function getJoke(){
 //     fetch ("https://icanhazdadjoke.com/",{
