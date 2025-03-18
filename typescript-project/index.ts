@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => getJoke());
 
 const reportAcudits: {joke: string, score: number | null, date: string}[] = [];
 let currentJoke: string = ""
-let currentCNJoke: string = ""
 let useFristAPI: boolean = true
 
 async function getJoke(){
@@ -15,7 +14,6 @@ async function getJoke(){
     useFristAPI  = !useFristAPI
 }
 
-
 async function getDadJoke(){
     try {
         const response = await fetch("https://icanhazdadjoke.com/", {
@@ -25,6 +23,12 @@ async function getDadJoke(){
         const result = await response.json();
         currentJoke = result.joke;
         showJoke(currentJoke)
+
+        reportAcudits.push({
+            joke:currentJoke,
+            score:null,
+            date: new Date().toISOString()
+        })
         console.log(currentJoke);
       } catch (error) {
         console.error(error);
@@ -35,9 +39,16 @@ async function getChuckNorrisJoke(){
     try {
         const response = await fetch("https://api.chucknorris.io/jokes/random");
         const result = await response.json();
-        currentCNJoke = result.value
-        showJoke(currentCNJoke)
-        console.log(currentCNJoke)
+        currentJoke = result.value
+        showJoke(currentJoke)
+
+        reportAcudits.push({
+            joke:currentJoke,
+            score:null,
+            date: new Date().toISOString()
+        })
+
+        console.log(currentJoke)
     } catch (error) {
         console.error(error);
     };
@@ -51,9 +62,12 @@ function showJoke(joke : string){
 }
 
 function recieveScore (score: number){
-    let lastScore = score
-    console.log("the last score is ",lastScore)
-    return lastScore
+    const lastJoke  = reportAcudits.find (j => j.joke === currentJoke)
+    if (lastJoke) {
+        lastJoke.score = score
+        lastJoke.date = new Date().toISOString()
+    }
+    console.log(reportAcudits)
 }
 
 // async function getWeather(){

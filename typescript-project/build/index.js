@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => getJoke());
 // document.addEventListener("DOMContentLoaded", () => getWeather())
 const reportAcudits = [];
 let currentJoke = "";
-let currentCNJoke = "";
 let useFristAPI = true;
 function getJoke() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -34,6 +33,11 @@ function getDadJoke() {
             const result = yield response.json();
             currentJoke = result.joke;
             showJoke(currentJoke);
+            reportAcudits.push({
+                joke: currentJoke,
+                score: null,
+                date: new Date().toISOString()
+            });
             console.log(currentJoke);
         }
         catch (error) {
@@ -46,9 +50,14 @@ function getChuckNorrisJoke() {
         try {
             const response = yield fetch("https://api.chucknorris.io/jokes/random");
             const result = yield response.json();
-            currentCNJoke = result.value;
-            showJoke(currentCNJoke);
-            console.log(currentCNJoke);
+            currentJoke = result.value;
+            showJoke(currentJoke);
+            reportAcudits.push({
+                joke: currentJoke,
+                score: null,
+                date: new Date().toISOString()
+            });
+            console.log(currentJoke);
         }
         catch (error) {
             console.error(error);
@@ -63,9 +72,13 @@ function showJoke(joke) {
     }
 }
 function recieveScore(score) {
+    const lastJoke = reportAcudits.find(j => j.joke === currentJoke);
     let lastScore = score;
-    console.log("the last score is ", lastScore);
-    return lastScore;
+    if (lastJoke) {
+        lastJoke.score = score;
+        lastJoke.date = new Date().toISOString();
+    }
+    console.log(reportAcudits);
 }
 // async function getWeather(){
 //       try {
