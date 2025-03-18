@@ -9,22 +9,61 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 document.addEventListener("DOMContentLoaded", () => getJoke());
+const reportAcudits = [];
+let currentJoke = "";
+// async function getJoke(){
+//     let res = await fetch("https://icanhazdadjoke.com/",
+//     {
+//         headers: {
+//             'Accept': 'application/json'
+//         }
+//     })
+//     .then(res => res.json())
+//     .then(response => {
+//         showJoke(response.joke)
+//         console.log(response)
+//     })
+// }
 function getJoke() {
     return __awaiter(this, void 0, void 0, function* () {
-        let res = yield fetch("https://icanhazdadjoke.com/", {
-            headers: {
-                'Accept': 'application/json'
-            }
-        })
-            .then(res => res.json())
-            .then(response => {
-            showJoke(response.joke);
-            console.log(response);
-        });
+        try {
+            const response = yield fetch("https://icanhazdadjoke.com/", {
+                headers: { Accept: "application/json" }
+            });
+            const result = yield response.json();
+            const currentJoke = result.joke;
+            showJoke(currentJoke);
+            console.log(currentJoke);
+        }
+        catch (error) {
+            console.error(error);
+        }
     });
 }
 function showJoke(joke) {
-    document.getElementById("result").innerHTML = joke;
+    const resultElement = document.getElementById("result");
+    if (resultElement) {
+        resultElement.innerHTML = joke;
+    }
+}
+function recieveScore(score) {
+    let lastScore = score;
+    console.log("the last score is ", lastScore);
+    return lastScore;
+}
+function getWeather() {
+    return __awaiter(this, void 0, void 0, function* () {
+        let res = yield fetch("Requesthttp://api.weatherstack.com/current", {
+            headers: {
+                "acces_key": "77449015a7825ab73d1a3104da6727f8",
+                "query": "Barcelona"
+            }
+        })
+            .then(resultat => resultat.json())
+            .then(response => {
+            console.log(response.weather_icons, response.weather_description);
+        });
+    });
 }
 // function getJoke(){
 //     fetch ("https://icanhazdadjoke.com/",{
