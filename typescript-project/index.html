@@ -14,7 +14,12 @@
         <div class="card">
             <h1>Preparat per riure?</h1>
             <div id="result"></div>
-            <button type="button" onclick="getJoke()">Següent acudit</button>
+            <div>
+                <button class="btn_rating" value="1" onclick="recieveScore(1)">1</button>
+                <button class="btn_rating" value="2" onclick="recieveScore(2)">2</button>
+                <button class="btn_rating" value="3" onclick="recieveScore(3)">3</button>
+            </div>
+            <button class="btn" type="button" onclick="getJoke()">Següent acudit</button>
         </div>
     </main>
     
