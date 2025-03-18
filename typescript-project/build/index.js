@@ -9,29 +9,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 document.addEventListener("DOMContentLoaded", () => getJoke());
+// document.addEventListener("DOMContentLoaded", () => getWeather())
 const reportAcudits = [];
 let currentJoke = "";
-// async function getJoke(){
-//     let res = await fetch("https://icanhazdadjoke.com/",
-//     {
-//         headers: {
-//             'Accept': 'application/json'
-//         }
-//     })
-//     .then(res => res.json())
-//     .then(response => {
-//         showJoke(response.joke)
-//         console.log(response)
-//     })
-// }
+let currentCNJoke = "";
+let useFristAPI = true;
 function getJoke() {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (useFristAPI) {
+            yield getDadJoke();
+        }
+        else {
+            yield getChuckNorrisJoke();
+        }
+        useFristAPI = !useFristAPI;
+    });
+}
+function getDadJoke() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const response = yield fetch("https://icanhazdadjoke.com/", {
                 headers: { Accept: "application/json" }
             });
             const result = yield response.json();
-            const currentJoke = result.joke;
+            currentJoke = result.joke;
             showJoke(currentJoke);
             console.log(currentJoke);
         }
@@ -40,8 +41,23 @@ function getJoke() {
         }
     });
 }
+function getChuckNorrisJoke() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const response = yield fetch("https://api.chucknorris.io/jokes/random");
+            const result = yield response.json();
+            currentCNJoke = result.value;
+            showJoke(currentCNJoke);
+            console.log(currentCNJoke);
+        }
+        catch (error) {
+            console.error(error);
+        }
+        ;
+    });
+}
 function showJoke(joke) {
-    const resultElement = document.getElementById("result");
+    const resultElement = document.getElementById("joke");
     if (resultElement) {
         resultElement.innerHTML = joke;
     }
@@ -51,26 +67,20 @@ function recieveScore(score) {
     console.log("the last score is ", lastScore);
     return lastScore;
 }
-function getWeather() {
-    return __awaiter(this, void 0, void 0, function* () {
-        let res = yield fetch("Requesthttp://api.weatherstack.com/current", {
-            headers: {
-                "acces_key": "77449015a7825ab73d1a3104da6727f8",
-                "query": "Barcelona"
-            }
-        })
-            .then(resultat => resultat.json())
-            .then(response => {
-            console.log(response.weather_icons, response.weather_description);
-        });
-    });
-}
-// function getJoke(){
-//     fetch ("https://icanhazdadjoke.com/",{
-//         headers: {
-//             'Accept': 'application/json'
-//         }
-//     })
-// .then(res => res.json())
-// .then( response => console.log(response))
+// async function getWeather(){
+//       try {
+//         const response = await fetch("https://api.weatherstack.com/current?query=Barcelona&access_key=••••••");
+//         const result = await response.json();
+//         const currentWeather = result.weather_icon
+//         showWeather(currentWeather)
+//         console.log(currentWeather)
+//       } catch (error) {
+//         console.error(error);
+//       };
+// }
+// function showWeather(weather: any){
+//     const resultElement = document.getElementById("weather")
+//     if (resultElement) {
+//         resultElement.innerHTML = weather
+//     }
 // }
