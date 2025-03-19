@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 document.addEventListener("DOMContentLoaded", () => getJoke());
-// document.addEventListener("DOMContentLoaded", () => getWeather())
+document.addEventListener("DOMContentLoaded", () => getWeather());
 const reportAcudits = [];
 let currentJoke = "";
 let useFristAPI = true;
@@ -73,27 +73,58 @@ function showJoke(joke) {
 }
 function recieveScore(score) {
     const lastJoke = reportAcudits.find(j => j.joke === currentJoke);
-    let lastScore = score;
     if (lastJoke) {
         lastJoke.score = score;
         lastJoke.date = new Date().toISOString();
     }
     console.log(reportAcudits);
 }
-// async function getWeather(){
-//       try {
-//         const response = await fetch("https://api.weatherstack.com/current?query=Barcelona&access_key=••••••");
-//         const result = await response.json();
-//         const currentWeather = result.weather_icon
-//         showWeather(currentWeather)
-//         console.log(currentWeather)
-//       } catch (error) {
-//         console.error(error);
-//       };
-// }
-// function showWeather(weather: any){
-//     const resultElement = document.getElementById("weather")
-//     if (resultElement) {
-//         resultElement.innerHTML = weather
-//     }
-// }
+function getWeather() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const response = yield fetch("https://api.weatherstack.com/current?query=Barcelona&access_key=77449015a7825ab73d1a3104da6727f8");
+            const result = yield response.json();
+            console.log(result);
+            const currentWeather = result.current.weather_code;
+            const currentTemperature = result.current.temperature;
+            console.log(currentWeather);
+            let icon = "";
+            if (currentWeather === 113) {
+                icon = "sun.png";
+            }
+            else if (currentWeather === 116) {
+                icon = "cloudy.png";
+            }
+            else if (currentWeather === 119 || currentWeather === 122) {
+                icon = "cloudy(2).png";
+            }
+            else if (currentWeather === 143) {
+                icon = "cloudy(1).png";
+            }
+            else if (currentWeather === 296 || currentWeather === 299 || currentWeather === 308) {
+                icon = "rainy.png";
+            }
+            else {
+                icon = "rainbow.png";
+            }
+            showTemperature(currentTemperature);
+            showWeather(icon);
+        }
+        catch (error) {
+            console.error(error);
+        }
+        ;
+    });
+}
+function showWeather(weather) {
+    const resultElement = document.getElementById("weather");
+    if (resultElement instanceof HTMLImageElement) {
+        resultElement.src = `/weather/${weather}`;
+    }
+}
+function showTemperature(temperature) {
+    const resultElement = document.getElementById("temperature");
+    if (resultElement) {
+        resultElement.innerHTML = `${temperature} °C`;
+    }
+}
