@@ -6,22 +6,25 @@
     <link rel="stylesheet" href="styles.css">
     <title>Get a joke</title>
 </head>
-<body class="container">
-    <header>
-       <div id="weather" class="weather"></div>
+<body class="container background-image">
+    <header class="weather">
+       <img id="weather" class="icon" src="" alt="weather icon">
+       <div id="temperature" class="temperature"></div>
     </header>
     </main>
         <div class="card">
             <h1>Preparat per riure?</h1>
             <div id="joke"></div>
-            <div>
-                <button class="btn_rating" value="1" onclick="recieveScore(1)">1</button>
-                <button class="btn_rating" value="2" onclick="recieveScore(2)">2</button>
-                <button class="btn_rating" value="3" onclick="recieveScore(3)">3</button>
+            <div class="espai_emoticones">
+                <button class="btn_ratting" value="1" onclick="recieveScore(1)"><img class="image" src="media/sad.png"></button>
+                <button class="btn_ratting" value="2" onclick="recieveScore(2)"><img class="image" src="media/neutral.png"></button>
+                <button class="btn_ratting" value="3" onclick="recieveScore(3)"><img class="image" src="media/smile.png"></button>
             </div>
             <button class="btn" type="button" onclick="getJoke()">Següent acudit</button>
         </div>
     </main>
+    <div class="decorative-shape"></div>
+
     
     <script src="build/index.js"></script>
     
