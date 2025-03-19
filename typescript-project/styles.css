@@ -44,3 +44,11 @@ main {
     justify-content: center;
     align-items: center;
 }
+
+.btn_ratting{
+    border:none;
+    background-color: white;
+}
+.image{
+    width: 30px
+}
